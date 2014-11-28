@@ -21,9 +21,28 @@ svg.append("rect")
 
 var g = svg.append("g");
 
-d3.json("js/us.json", function(error, us) {
+d3.json("json/us.json", function(error, us) {
 
-
+// 	svg.insert("path", ".graticule")
+//       .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+//       .attr("class", "state-boundary")
+//       .attr("d", path);
+	
+// 	svg.selectAll("path")
+//        .data(topojson.feature(us, us.objects.states).features)
+// 	   .enter()
+// 	   .append("path")
+// 	   .attr("d", path);
+	
+// 	svg.insert("path", ".graticule")
+//       .datum(topojson.feature(us, us.objects.states))
+//       .attr("class", "state-boundary")
+//       .attr("d", path);
+	
+// 	svg.insert("path", ".graticule")
+//       .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+//       .attr("class", "state-boundary")
+//       .attr("d", path);
 
 });
 
