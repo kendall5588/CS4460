@@ -1,94 +1,117 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+	<style>
 
-<style>
+		#graphPanel.ui-panel {
+			width: 25em;
+		}
 
-	.state{
-  		fill: none;
-  		stroke: #fff;
-	}
-	
-	.state:hover{
-		fill-opacity:0.5;
-	}
-	
-	#tooltip {   
-		position: absolute;           
-		text-align: center;
-		padding: 20px;             
-		margin: 10px;
-		font: 12px sans-serif;        
-		background: lightsteelblue;   
-		border: 1px;      
-		border-radius: 2px;           
-		pointer-events: none;         
-	}
-	
-	#tooltip h4{
-		margin:0;
-		font-size:14px;
-	}
-	
-	#tooltip{
-		background:rgba(0,0,0,0.9);
-		border:1px solid grey;
-		border-radius:5px;
-		font-size:12px;
-		width:auto;
-		padding:4px;
-		color:white;
-		opacity:0;
-	}
-	
-	#tooltip table{
-		table-layout:fixed;
-	}
-	
-	#tooltip tr td{
-		padding:0;
-		margin:0;
-	}
-	
-	#tooltip tr td:nth-child(1){
-		width:50px;
-	}
-	
-	#tooltip tr td:nth-child(2){
-		text-align:center;
-	}
-	
-</style>
+		.state{
+	  		fill: none;
+	  		stroke: #fff;
+		}
+		
+		.state:hover{
+			fill-opacity:0.5;
+		}
+		
+		#tooltip {   
+			position: absolute;           
+			text-align: center;
+			padding: 20px;             
+			margin: 10px;
+			font: 12px sans-serif;        
+			background: lightsteelblue;   
+			border: 1px;      
+			border-radius: 2px;           
+			pointer-events: none;         
+		}
+		
+		#tooltip h4{
+			margin:0;
+			font-size:14px;
+		}
+		
+		#tooltip{
+			background:rgba(0,0,0,0.9);
+			border:1px solid grey;
+			border-radius:5px;
+			font-size:12px;
+			width:auto;
+			padding:4px;
+			color:white;
+			opacity:0;
+		}
+		
+		#tooltip table{
+			table-layout:fixed;
+		}
+		
+		#tooltip tr td{
+			padding:0;
+			margin:0;
+		}
+		
+		#tooltip tr td:nth-child(1){
+			width:50px;
+		}
+		
+		#tooltip tr td:nth-child(2){
+			text-align:center;
+		}
+		
+	</style>
+</head>
 
 <body>
-<div id="tooltip"></div>
-<svg width="960" height="600" id="statesvg"></svg>
-<script src="lib/d3.js"></script>
-<script src="js/stateBorders.js"></script>
-<script src="js/map.js"></script>
-<script>
+	<h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
+	<div id = "mainScreen">
+		<p style = "text-indent: 30em"><a href="#graphPanel"  onclick = "addPic()">Click me</a></p>
+		<div data-role="panel" data-position="right" data-display = "reveal" id="graphPanel"> 
+		    <h2>Panel Header</h2>
+		    <p><div id = "panelPic">
+		    </div></p>
+		 </div> 
+		<div id="tooltip"></div>
+		<svg width="960" height="600" id="statesvg"></svg>
+		<script src="lib/d3.js"></script>
+		<script src="js/stateBorders.js"></script>
+		<script src="js/map.js"></script>
 
-	function tooltip(n, d){
-		return "<h4>"+n+"</h4><table><tr><td>Score</td><td>"+(d.score)+"</td></tr></table>";
-	}
-	
-	var scores = {};
-	
-	var states = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT",
-	              "MA", "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV",
-	              "KY", "OH", "MI", "WY", "MT", "ID", "WA", "TX", "CA", "AZ",
-	              "NV", "UT", "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS",
-	              "IN", "IL", "MN", "WI", "MO", "AR", "OK", "KS", "LS", "VA"];
-	
-	
-	states.forEach(function(d){
-	
-		var score = 500; // FIX THIS
+		<script>
+
+			function addPic(){
+				var imgURL = "http://conches.typepad.com/.a/6a00e008d46c2c8834015393733c74970b-pi";
+				var e = document.getElementById("panelPic");
+				e.innerHTML = '<p><img src ="' + imgURL + '">';
+			}			
+
+			function tooltip(n, d){
+				return "<h4>"+n+"</h4><table><tr><td>Score</td><td>"+(d.score)+"</td></tr></table>";
+			}
 			
-		scores[d] = {score:score, color:d3.interpolate("#000000", "#ffffff")};
-	});
-	
-	map.draw("#statesvg", scores, tooltip);
-	
-</script>
-
+			var scores = {};
+			
+			var states = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT",
+			              "MA", "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV",
+			              "KY", "OH", "MI", "WY", "MT", "ID", "WA", "TX", "CA", "AZ",
+			              "NV", "UT", "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS",
+			              "IN", "IL", "MN", "WI", "MO", "AR", "OK", "KS", "LS", "VA"];
+			
+			
+			states.forEach(function(d){
+			
+				var score = 500; // FIX THIS
+					
+				scores[d] = {score:score, color:d3.interpolate("#000000", "#ffffff")};
+			});
+			
+			map.draw("#statesvg", scores, tooltip);
+			
+		</script>
+	</div>
 </body>
