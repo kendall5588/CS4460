@@ -35,8 +35,8 @@ map.draw = function(id, data, tooltip){
 	 	.append("path")
 	 	.attr("class", "state")
 	 	.attr("d", function(d){ return d.d;})
-  	 // .style("fill", function(d){ return data[d.id].color; })
-	 	.style("fill", "#0000ff")
+  	    .style("fill", function(d){ return data[d.id].color; })
+	 	//.style("fill", "#0000ff")
 	 	.on("mouseover", mouseOver)
 		.on("mouseout", mouseOut)
 		.on("clicked", clicked);
