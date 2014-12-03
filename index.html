@@ -5,11 +5,9 @@
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
 	<style>
-
 		#graphPanel.ui-panel {
 			width: 25em;
 		}
-
 		.state{
 	  		fill: none;
 	  		stroke: #fff;
@@ -83,35 +81,41 @@
 		<script src="js/map.js"></script>
 
 		<script>
-
+			var scores = {};
+// 			var states = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT",
+// 			              "MA", "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV",
+// 			              "KY", "OH", "MI", "WY", "MT", "ID", "WA", "TX", "CA", "AZ",
+// 			              "NV", "UT", "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS",
+// 			              "IN", "IL", "MN", "WI", "MO", "AR", "OK", "KS", "LS", "VA"];
+			var states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+			              "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
+			              "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+			              "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+			              "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+			
+			states.forEach(function(d){
+				var score = 500; // FIX THIS
+				scores[d] = {score:score, color:d3.interpolate("#000000", "#ffffff")};
+			});
+			//map.draw("#statesvg", scores, tooltip);
+			
+			//default data reading
+			d3.csv("res/default.csv", function(error, data) {
+				for (var index = 0; index < data.length; ++index) {
+					data[index].totalScore = +data[index].totalScore;
+					scores[states[index]] = {score:data[index].totalScore, color:d3.interpolate("#000000", "#ffffff")};
+				}
+				map.draw("#statesvg", scores, tooltip);
+			});
+			
 			function addPic(){
 				var imgURL = "http://conches.typepad.com/.a/6a00e008d46c2c8834015393733c74970b-pi";
 				var e = document.getElementById("panelPic");
 				e.innerHTML = '<p><img src ="' + imgURL + '">';
 			}			
-
 			function tooltip(n, d){
 				return "<h4>"+n+"</h4><table><tr><td>Score</td><td>"+(d.score)+"</td></tr></table>";
 			}
-			
-			var scores = {};
-			
-			var states = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT",
-			              "MA", "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV",
-			              "KY", "OH", "MI", "WY", "MT", "ID", "WA", "TX", "CA", "AZ",
-			              "NV", "UT", "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS",
-			              "IN", "IL", "MN", "WI", "MO", "AR", "OK", "KS", "LS", "VA"];
-			
-			
-			states.forEach(function(d){
-			
-				var score = 500; // FIX THIS
-					
-				scores[d] = {score:score, color:d3.interpolate("#fee0d2", "#de2d26")};
-			});
-			
-			map.draw("#statesvg", scores, tooltip);
-			
 		</script>
 	</div>
 </body>
