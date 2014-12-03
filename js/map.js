@@ -1,6 +1,6 @@
 var map = {};
 	
-map.draw = function(id, data, toolTip){
+map.draw = function(id, data, tooltip){
 
 	function clicked(d) {
 	
@@ -16,7 +16,7 @@ map.draw = function(id, data, toolTip){
 			.style("opacity", 1);      
 		
 		d3.select("#tooltip")
-			.html(toolTip(d.n, data[d.id]))
+			.html(tooltip(d.n, data[d.id]))
 			.style("left", (d3.event.pageX) + "px")     
 			.style("top", (d3.event.pageY - 25) + "px");
 	}
