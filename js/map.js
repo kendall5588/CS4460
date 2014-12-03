@@ -3,9 +3,6 @@ var map = {};
 map.draw = function(id, data, tooltip){
 
 	function clicked(d) {
-	
-		// Put actions on state clicked here
-		
 	}
 		
 	function mouseOver(d){
@@ -21,7 +18,7 @@ map.draw = function(id, data, tooltip){
 			.style("top", (d3.event.pageY - 25) + "px");
 	}
 	
-	function mouseOut(){
+	function mouseOut(d){
 	
 		d3.select("#tooltip")
 			.transition()
@@ -35,10 +32,10 @@ map.draw = function(id, data, tooltip){
 	 	.append("path")
 	 	.attr("class", "state")
 	 	.attr("d", function(d){ return d.d;})
-  	    .style("fill", function(d){ return scores[d.id].color; })
+  	    .style("fill", function(d){ return data[d.id].color; })
 	 	.on("mouseover", mouseOver)
 		.on("mouseout", mouseOut)
-		.on("clicked", clicked);
+		.on("click", clicked);
 }
 	
 this.map = map;
