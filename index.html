@@ -75,7 +75,11 @@
 		    </div></p>
 		 </div> 
 		<div id="tooltip"></div>
-		<svg width="960" height="600" id="statesvg"></svg>
+		<svg width="960" height="600" id="statesvg">
+	      	<g transform="translate(910,599)">
+	      		<rect height="1" width="50">
+	      	</g>
+		</svg>
 		<script src="lib/d3.js"></script>
 		<script src="js/stateBorders.js"></script>
 		<script src="js/map.js"></script>
@@ -97,6 +101,7 @@
 					var color = 255 * (data[index].totalScore - min)/(max - min);
 					scores[states[index]] = {score:data[index].totalScore, color:d3.rgb(color,0,0)};
 				}
+				//svg.select("chart")
 				map.draw("#statesvg", scores, tooltip);
 			});
 			
