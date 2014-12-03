@@ -89,7 +89,6 @@
 			              "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 			
 			//default data reading
-			
 			d3.csv("res/default.csv", function(error, data) {
 				var min = d3.min(data, function(d) { return d.totalScore; });
 				var max = d3.max(data, function(d) { return d.totalScore; });
@@ -97,9 +96,7 @@
 					data[index].totalScore = +data[index].totalScore;
 					var color = 255 * (data[index].totalScore - min)/(max - min);
 					scores[states[index]] = {score:data[index].totalScore, color:d3.rgb(color,0,0)};
-					console.log(color);
 				}
-				console.log(scores);
 				map.draw("#statesvg", scores, tooltip);
 			});
 			
