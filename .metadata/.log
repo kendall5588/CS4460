@@ -18,3 +18,6 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.e
 
 !ENTRY org.eclipse.ui 4 4 2014-12-03 18:51:07.874
 !MESSAGE Part already exists in page layout: org.eclipse.ui.navigator.ProjectExplorer.
+
+!ENTRY unknown 8 1 2014-12-04 02:02:16.593
+!MESSAGE 
