@@ -6,7 +6,7 @@
 	<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
 	<style>
 		#graphPanel.ui-panel {
-			width: 40em;
+			width: 35em;
 		}
 		.state{
 	  		fill: none;
@@ -87,7 +87,6 @@
 		</div>
 		<p style = "text-indent: 30em"><a href="#graphPanel"  onclick = "addPic()">Click me</a></p>
 		<div data-role="panel" data-position="right" data-display = "reveal" id="graphPanel"> 
-			<h2>Panel Header</h2>
 		    <p><div id = "panelPic">
 		    </div></p>
 		</div> 
@@ -168,7 +167,7 @@
 				return ret;
 			}
 			function addPic(){
-				var imgURL = "http://conches.typepad.com/.a/6a00e008d46c2c8834015393733c74970b-pi";
+				var imgURL = "http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg";
 				var e = document.getElementById("panelPic");
 				e.innerHTML = '<p><img src ="' + imgURL + '">';
 			}			
