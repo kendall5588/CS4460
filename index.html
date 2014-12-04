@@ -77,6 +77,8 @@
 		<div style="width:900px; margin:0 auto;">
 			<g style="display: table-cell; width: 100;">
 			  	<select id="xdropdown">
+			  		<option val=totalScore>totalScore</option>
+      				<option val=spentPerStudent>spentPerStudent</option>
 				</select>
 			</g>
 			<g style="display: table-cell; width: 100;">
@@ -108,58 +110,60 @@
 			              "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 				
 			//default data reading
-			d3.csv("res/default.csv", function(error, data) {
-				var min = parseInt(d3.min(data, function(d) { return d.totalScore; }));
-					max = parseInt(d3.max(data, function(d) { return d.totalScore; }));
-					dif = max - min;
-					scale = [max, Math.round(min+dif*.75), Math.round(min+dif*.5),
-					         Math.round(min+dif*.25), min]
-					
-				for (var index = 0; index < data.length; ++index) {
-					data[index].totalScore = +data[index].totalScore;
-					var temp = 255 * (data[index].totalScore - min)/(max - min);
-					scores[states[index]] = {score:data[index].totalScore, color:d3.rgb(temp,0,0)};
-				}
-				
-				//draw map
-				map.draw("#statesvg", scores, tooltip);
-
-				//draw legend
-				var color = d3.scale.ordinal()
-					.range(getColor(scale,min,max));
-				
-				var svg = d3.select("#statesvg").append("svg").append("g")
-				    .attr("transform", "translate(850,400)");
-	
-				 color.domain(scale);
-				 var legend = svg.selectAll(".legend")
-				     .data(color.domain().slice())
-				   .enter().append("g")
-				     .attr("class", "legend")
-				     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-	
-				 legend.append("rect")
-				     .attr("x", width - 18)
-				     .attr("width", 18)
-				     .attr("height", 18)
-				     .style("fill", color);
-	
-				 legend.append("text")
-				     .attr("x", width - 24)
-				     .attr("y", 9)
-				     .attr("dy", ".35em")
-				     .style("text-anchor", "end")
-				     .text(function(d) { return d; });
-			});
+			updateClicked();
 				
 			//functions
 			function updateClicked(){
-				
+				var e = document.getElementById("xdropdown");
+					selection = e.options[e.selectedIndex].value;
+				d3.csv("res/default.csv", function(error, data) {
+					var min = parseInt(d3.min(data, function(d) { return d.totalScore; }));
+						max = parseInt(d3.max(data, function(d) { return d.totalScore; }));
+						dif = max - min;
+						scale = [max.toFixed(2), Math.round((min+dif*.75)*100)/100, (Math.round((min+dif*.5)*100)/100).toFixed(2),
+						         Math.round((min+dif*.25)*100)/100, min.toFixed(2)]
+						
+					for (var index = 0; index < data.length; ++index) {
+						data[index].selection = +data[index].totalScore;
+						var temp = 255 * (data[index].selection - min)/(max - min);
+						scores[states[index]] = {score:data[index].selection, color:d3.rgb(0, 0, temp)};
+					}
+					
+					//draw map
+					map.draw("#statesvg", scores, tooltip);
+
+					//draw legend
+					var color = d3.scale.ordinal()
+						.range(getColor(scale,min,max));
+					
+					var svg = d3.select("#statesvg").append("svg").append("g")
+					    .attr("transform", "translate(850,400)");
+		
+					 color.domain(scale);
+					 var legend = svg.selectAll(".legend")
+					     .data(color.domain().slice())
+					   .enter().append("g")
+					     .attr("class", "legend")
+					     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+		
+					 legend.append("rect")
+					     .attr("x", width - 18)
+					     .attr("width", 18)
+					     .attr("height", 18)
+					     .style("fill", color);
+		
+					 legend.append("text")
+					     .attr("x", width - 24)
+					     .attr("y", 9)
+					     .attr("dy", ".35em")
+					     .style("text-anchor", "end")
+					     .text(function(d) { return d; });
+				});
 			}
 			function getColor(a, min, max) {
 				var ret = [];
 				for (var i = 0; i < a.length; i++) {
-					ret[i] = d3.rgb(255 * (a[i] - min)/(max - min), 0, 0)
+					ret[i] = d3.rgb(0, 0, 255 * (a[i] - min)/(max - min))
 				}
 				return ret;
 			}
