@@ -8,229 +8,238 @@
 		#graphPanel.ui-panel {
 			width: 35em;
 		}
-		.state{
-	  		fill: none;
-	  		stroke: #fff;
+		
+		.arc path {
+		  stroke: #fff;
 		}
 		
-		.state:hover{
-			fill-opacity:0.5;
+		.state {
+			fill: none;
+			stroke: #fff;
 		}
-		
-		#tooltip {   
-			position: absolute;           
+
+		.state:hover {
+			fill-opacity: 0.5;
+		}
+
+		#tooltip {
+			position: absolute;
 			text-align: center;
-			padding: 20px;             
+			padding: 20px;
 			margin: 10px;
-			font: 12px sans-serif;        
-			background: lightsteelblue;   
-			border: 1px;      
-			border-radius: 2px;           
-			pointer-events: none;         
+			font: 12px sans-serif;
+			background: lightsteelblue;
+			border: 1px;
+			border-radius: 2px;
+			pointer-events: none;
 		}
-		
-		#tooltip h4{
-			margin:0;
-			font-size:14px;
+
+		#tooltip h4 {
+			margin: 0;
+			font-size: 14px;
 		}
-		
-		#tooltip{
-			background:rgba(0,0,0,0.9);
-			border:1px solid grey;
-			border-radius:5px;
-			font-size:12px;
-			width:auto;
-			padding:4px;
-			color:white;
-			opacity:0;
+
+		#tooltip {
+			background: rgba(0,0,0,0.9);
+			border: 1px solid grey;
+			border-radius: 5px;
+			font-size: 12px;
+			width: auto;
+			padding: 4px;
+			color: white;
+			opacity: 0;
 		}
-		
-		#tooltip table{
-			table-layout:fixed;
+
+		#tooltip table {
+			table-layout: fixed;
 		}
-		
-		#tooltip tr td{
-			padding:0;
-			margin:0;
+
+		#tooltip tr td {
+			padding: 0;
+			margin: 0;
 		}
-		
-		#tooltip tr td:nth-child(1){
-			width:50px;
+
+		#tooltip tr td:nth-child(1) {
+			width: 50px;
 		}
-		
-		#tooltip tr td:nth-child(2){
-			text-align:center;
+
+		#tooltip tr td:nth-child(2) {
+			text-align: center;
 		}
-		
+
 		.chart text {
-		  fill: white;
-		  font: 12px sans-serif;
-		  text-anchor: middle;
+			fill: white;
+			font: 12px sans-serif;
+			text-anchor: middle;
 		}
-}
+		
 	</style>
 </head>
 
 <body>
-	
+
 	<div id = "totalScreen">
 		<div id = "mainScreen">
-			
+
 			<div class = "ui-block-a" id = "leftMainScreen">
 				<h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
-				
-					<p style = "text-indent: 22em">
-						<button id = "mainButton" onclick = "showMain()" data-inline = "true">Overview</button>
-						<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">Compare</button>
+
+				<p style = "text-indent: 22em">
+					<button id = "mainButton" onclick = "showMain()" data-inline = "true">
+						Overview
+					</button>
+					<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">
+						Compare
+					</button>
+				</p>
+				<p style = "text-indent: 30em">
+					<a href="#graphPanel"  onclick = "addPic()">Click me</a>
+				</p>
+				<div data-role="panel" data-position="right" data-display = "reveal" id="graphPanel">
+					<p>
+						<div id = "panelPic"></div>
 					</p>
-					<p style = "text-indent: 30em"><a href="#graphPanel"  onclick = "addPic()">Click me</a></p>
-						<div data-role="panel" data-position="right" data-display = "reveal" id="graphPanel"> 
-						    <p><div id = "panelPic">
-						    </div></p>
-						</div> 
+				</div>
 				<div style="width:900px; margin:0 auto;">
 					<g style="display: table-cell; width: 100;" >
-					  	<select id="xdropdown">
-					  		<option val=totalScore>totalScore</option>
-		      				<option val=spentPerStudent>spentPerStudent</option>
+						<select id="xdropdown">
+							<option val=totalScore>totalScore</option>
+							<option val=spentPerStudent>spentPerStudent</option>
 						</select>
 					</g>
 					<g style="display: table-cell; width: 100;">
-						<button id="update" onclick="updateClicked()" data-inline = "true">Update</button>
+						<button id="update" onclick="updateClicked()" data-inline = "true">
+							Update
+						</button>
 					</g>
 				</div>
-				
+
 				<div id="tooltip"></div>
 				<svg width="960" height="600" id="statesvg"></svg>
-				
+
 				<script src="lib/d3.js"></script>
 				<script src="js/stateBorders.js"></script>
 				<script src="js/map.js"></script>
-		
-				<script>				
-					var width = 35,
-			    		barHeight = 35;
-						scores = {};
-						scale = [];
-						states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
-					              "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
-					              "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
-					              "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
-					              "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
-						
+
+				<script>
+					var width = 35, barHeight = 35;
+					scores = {};
+					scale = [];
+					states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+
 					//default data reading
 					updateClicked();
-						
+
 					//functions
-					function updateClicked(){
+					function updateClicked() {
 						var e = document.getElementById("xdropdown");
-							selection = e.options[e.selectedIndex].value;
+						selection = e.options[e.selectedIndex].value;
 						d3.csv("res/default.csv", function(error, data) {
-							var min = parseInt(d3.min(data, function(d) { return d.totalScore; }));
-								max = parseInt(d3.max(data, function(d) { return d.totalScore; }));
-								dif = max - min;
-								scale = [max.toFixed(2), Math.round((min+dif*.75)*100)/100, (Math.round((min+dif*.5)*100)/100).toFixed(2),
-								         Math.round((min+dif*.25)*100)/100, min.toFixed(2)]
-								
+							var min = parseInt(d3.min(data, function(d) {
+								return d.totalScore;
+							}));
+							max = parseInt(d3.max(data, function(d) {
+								return d.totalScore;
+							}));
+							dif = max - min;
+							scale = [max.toFixed(2), Math.round((min + dif * .75) * 100) / 100, (Math.round((min + dif * .5) * 100) / 100).toFixed(2), Math.round((min + dif * .25) * 100) / 100, min.toFixed(2)]
+
 							for (var index = 0; index < data.length; ++index) {
 								data[index].selection = +data[index].totalScore;
-								var temp = 255 * (data[index].selection - min)/(max - min);
-								scores[states[index]] = {score:data[index].selection, color:d3.rgb(0, 0, temp)};
+								var temp = 255 * (data[index].selection - min) / (max - min);
+								scores[states[index]] = {
+									score : data[index].selection,
+									color : d3.rgb(0, 0, temp)
+								};
 							}
-							
+
 							//draw map
 							map.draw("#statesvg", scores, tooltip);
-		
+
 							//draw legend
-							var color = d3.scale.ordinal()
-								.range(getColor(scale,min,max));
-							
-							var svg = d3.select("#statesvg").append("svg").append("g")
-							    .attr("transform", "translate(850,400)");
-				
-							 color.domain(scale);
-							 var legend = svg.selectAll(".legend")
-							     .data(color.domain().slice())
-							   .enter().append("g")
-							     .attr("class", "legend")
-							     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-				
-							 legend.append("rect")
-							     .attr("x", width - 18)
-							     .attr("width", 18)
-							     .attr("height", 18)
-							     .style("fill", color);
-				
-							 legend.append("text")
-							     .attr("x", width - 24)
-							     .attr("y", 9)
-							     .attr("dy", ".35em")
-							     .style("text-anchor", "end")
-							     .text(function(d) { return d; });
+							var color = d3.scale.ordinal().range(getColor(scale, min, max));
+
+							var svg = d3.select("#statesvg").append("svg").append("g").attr("transform", "translate(850,400)");
+
+							color.domain(scale);
+							var legend = svg.selectAll(".legend").data(color.domain().slice()).enter().append("g").attr("class", "legend").attr("transform", function(d, i) {
+								return "translate(0," + i * 20 + ")";
+							});
+
+							legend.append("rect").attr("x", width - 18).attr("width", 18).attr("height", 18).style("fill", color);
+
+							legend.append("text").attr("x", width - 24).attr("y", 9).attr("dy", ".35em").style("text-anchor", "end").text(function(d) {
+								return d;
+							});
 						});
 					}
+
 					function getColor(a, min, max) {
 						var ret = [];
 						for (var i = 0; i < a.length; i++) {
-							ret[i] = d3.rgb(0, 0, 255 * (a[i] - min)/(max - min))
+							ret[i] = d3.rgb(0, 0, 255 * (a[i] - min) / (max - min))
 						}
 						return ret;
 					}
-					function addPic(){
+
+					function addPic() {
 						var imgURL = "http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg";
 						var e = document.getElementById("panelPic");
 						e.innerHTML = '<p><img src ="' + imgURL + '">';
-					}			
-					function tooltip(n, d){
-						return "<h4>"+n+"</h4><table><tr><td>Score</td><td>"+(d.score)+"</td></tr></table>";
+					}
+
+					function tooltip(n, d) {
+						return "<h4>" + n + "</h4><table><tr><td>Score</td><td>" + (d.score) + "</td></tr></table>";
 					}
 				</script>
 			</div>
-		  	<div id = "rightMainScreen" style="height:600px" class="ui-block-b">
-		  		<h2 style = "text-indent: 8em" >STATE NAME HERE:</h2>
-		  		<p><h4 style = "text-indent: 15em">insert stuff here</h4></p>
-		  		<div id = "stateNameMainScreen"></div>
-		  		<div id = "stateDonutSchoolMainScreen"></div>
-		  		<!-- <img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'> -->
-		  	</div>
+			<div id = "rightMainScreen" style="height:600px" class="ui-block-b">
+				<h2 style = "text-indent: 8em" >STATE NAME HERE:</h2>
+				<p>
+					<h4 style = "text-indent: 15em">insert stuff here</h4>
+				</p>
+				<div id = "stateNameMainScreen"></div>
+				<div id = "stateDonutSchoolMainScreen"></div>
+				<!-- <img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'> -->
+			</div>
 		</div>
 		<script>
 			var mainScreen = document.getElementById("mainScreen");
 			var compScreen = document.getElementByID("compScreen");
-			
-			function clearDivs(){
+
+			function clearDivs() {
 				mainScreen.style.display = 'none';
 				compScreen.style.display = 'none';
 			}
-			
-			function showMain(){
+
+			function showMain() {
 				clearDivs();
 				mainScreen.style.display = 'block';
 			}
-			
-			function showComp(){
+
+			function showComp() {
 				clearDivs();
 				compScreen.style.display = 'block';
 			}
 		</script>
 		<div id = "compScreen" class="ui-grid-a">
-		  <h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
-				
-					<p style = "text-indent: 22em">
-						<button id = "mainButton" onclick = "showMain()" data-inline = "true">Overview</button>
-						<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">Compare</button>
-					</p>
-					<p style = "text-indent: 30em"><a href="#graphPanel"  onclick = "addPic()">Click me</a></p>
-						<div data-role="panel" data-position="right" data-display = "reveal" id="graphPanel"> 
-						    <p><div id = "panelPic">
-						    </div></p>
-						</div> 
-		  <div class="ui-block-a">
-		  	<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
-		  </div>
-		  <div class="ui-block-b">
-		  	<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
-		  </div>
+			<h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
+
+			<p style = "text-indent: 22em">
+				<button id = "mainButton" onclick = "showMain()" data-inline = "true">
+					Overview
+				</button>
+				<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">
+					Compare
+				</button>
+			</p>
+			</div>
+			<div class="ui-block-a">
+				<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
+			</div>
+			<div class="ui-block-b">
+				<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
+			</div>
 		</div>
 		<script>
 			var compScreen = document.getElementById("compScreen");
