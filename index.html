@@ -81,9 +81,12 @@
 		 </div> 
 		<div id="tooltip"></div>
 		<svg width="960" height="600" id="statesvg">
-	      	<g transform="translate(910,400)">
-	      		<svg class="chart" width="420" height="120"></svg>
+<!-- 	      	<g transform="translate(20,400)"> -->
+<!-- 	      		<g class="legend" width="100" height="200"> -->
+<!-- 					<rect x="882" width="18" height="18" style="fill: rgb(255, 140, 0);"/> -->
+<!-- 				</g> -->
 	      	</g>
+			
 		</svg>
 		
 		<script src="lib/d3.js"></script>
@@ -94,17 +97,13 @@
 			var width = 35,
 	    		barHeight = 35;
 				scores = {};
+				scale = [];
 				states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
 			              "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
 			              "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
 			              "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
 			              "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
-			var x = d3.scale.ordinal()
-			    .rangeRoundBands([0, width], .1);
 				
-			var color = d3.scale.ordinal()
-				.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-			console.log(color);
 			//default data reading
 			d3.csv("res/default.csv", function(error, data) {
 				var min = parseInt(d3.min(data, function(d) { return d.totalScore; }));
@@ -112,43 +111,44 @@
 					dif = max - min;
 					scale = [max, Math.round(min+dif*.75), Math.round(min+dif*.5),
 					         Math.round(min+dif*.25), min]
-					var temp = getColor(scale, min, max);
 					
 				for (var index = 0; index < data.length; ++index) {
 					data[index].totalScore = +data[index].totalScore;
-					var color = 255 * (data[index].totalScore - min)/(max - min);
-					scores[states[index]] = {score:data[index].totalScore, color:d3.rgb(color,0,0)};
+					var temp = 255 * (data[index].totalScore - min)/(max - min);
+					scores[states[index]] = {score:data[index].totalScore, color:d3.rgb(temp,0,0)};
 				}
 				
 				//draw map
 				map.draw("#statesvg", scores, tooltip);
+
+				//draw legend
+				var color = d3.scale.ordinal()
+					.range(getColor(scale,min,max));
 				
-				//draw scale
-				var x = d3.scale.linear()
-				    .domain([0, max])
-				    .range([0, width]);
-
-				var chart = d3.select(".chart")
-				    .attr("width", width)
-				    .attr("height", barHeight * scale.length);
-
-				var bar = chart.selectAll("g")
-				    .data(scale)
-				  .enter().append("g")
-				    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
-
-				bar.append("rect")
-				    .attr("width", width)
-				    .style("fill", x)
-				    .attr("height", barHeight);
-				    
-				bar.append("text")
-				    .attr("x", width / 2 - 1)
-				    .attr("y", barHeight / 2)
-				    .attr("dy", ".35em")
-				    .text(function(d) { return d; });
+				var svg = d3.select("#statesvg").append("svg").append("g")
+				    .attr("transform", "translate(850,400)");
+	
+				 color.domain(scale);
+				 var legend = svg.selectAll(".legend")
+				     .data(color.domain().slice())
+				   .enter().append("g")
+				     .attr("class", "legend")
+				     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+	
+				 legend.append("rect")
+				     .attr("x", width - 18)
+				     .attr("width", 18)
+				     .attr("height", 18)
+				     .style("fill", color);
+	
+				 legend.append("text")
+				     .attr("x", width - 24)
+				     .attr("y", 9)
+				     .attr("dy", ".35em")
+				     .style("text-anchor", "end")
+				     .text(function(d) { return d; });
 			});
-			
+				
 			//functions
 			function getColor(a, min, max) {
 				var ret = [];
@@ -156,7 +156,6 @@
 					ret[i] = d3.rgb(255 * (a[i] - min)/(max - min), 0, 0)
 				}
 				return ret;
-				//return d3.rgb(255 * (a - min)/(max - min), 0, 0);
 			}
 			function addPic(){
 				var imgURL = "http://conches.typepad.com/.a/6a00e008d46c2c8834015393733c74970b-pi";

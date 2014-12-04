@@ -8,3 +8,13 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.e
 
 !ENTRY org.eclipse.ui 4 4 2014-12-02 23:50:35.260
 !MESSAGE Part already exists in page layout: org.eclipse.ui.navigator.ProjectExplorer.
+!SESSION 2014-12-03 18:51:00.345 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.8.0_20
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.javascript.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.javascript.product
+
+!ENTRY org.eclipse.ui 4 4 2014-12-03 18:51:07.874
+!MESSAGE Part already exists in page layout: org.eclipse.ui.navigator.ProjectExplorer.
