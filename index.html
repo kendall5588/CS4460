@@ -80,43 +80,37 @@
 
 	<div id = "totalScreen">
 		<div id = "mainScreen">
-
 			<div class = "ui-block-a" id = "leftMainScreen">
 				<h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
-
-				<p style = "text-indent: 22em">
+				
+				<p style = "margin: 0 auto" align="center">
 					<button id = "mainButton" onclick = "showMain()" data-inline = "true">
 						Overview
 					</button>
 					<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">
 						Compare
 					</button>
+					<select id="xdropdown" data-inline = "true">
+						<option val=totalScore>totalScore</option>
+						<option val=spentPerStudent>spentPerStudent</option>
+					</select>
+					<button id="update" onclick="updateClicked()" data-inline = "true">
+						Update
+					</button>
 				</p>
-				<p style = "text-indent: 30em">
+				
+				<p style = "margin: 0 auto; width: 300px;" align="center" >
 					<a href="#graphPanel"  onclick = "addPic()">Click me</a>
 				</p>
+				
 				<div data-role="panel" data-position="right" data-display = "reveal" id="graphPanel">
 					<p>
 						<div id = "panelPic"></div>
 					</p>
 				</div>
-				<div style="width:900px; margin:0 auto;">
-					<g style="display: table-cell; width: 100;" >
-						<select id="xdropdown">
-							<option val=totalScore>totalScore</option>
-							<option val=spentPerStudent>spentPerStudent</option>
-						</select>
-					</g>
-					<g style="display: table-cell; width: 100;">
-						<button id="update" onclick="updateClicked()" data-inline = "true">
-							Update
-						</button>
-					</g>
-				</div>
-
+					
 				<div id="tooltip"></div>
 				<svg width="960" height="600" id="statesvg"></svg>
-
 				<script src="lib/d3.js"></script>
 				<script src="js/stateBorders.js"></script>
 				<script src="js/map.js"></script>
@@ -193,6 +187,7 @@
 					}
 				</script>
 			</div>
+			
 			<div id = "rightMainScreen" style="height:600px" class="ui-block-b">
 				<h2 style = "text-indent: 8em" >STATE NAME HERE:</h2>
 				<p>
@@ -202,6 +197,7 @@
 				<div id = "stateDonutSchoolMainScreen"></div>
 				<!-- <img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'> -->
 			</div>
+			
 		</div>
 		<script>
 			var mainScreen = document.getElementById("mainScreen");
