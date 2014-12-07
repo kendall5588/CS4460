@@ -1,52 +1,52 @@
-spentPerStudent,totalScore,Data
-2.73,1608,Alabama
-5.29,1495,Alaska
-2.15,1551,Arizona
-3,1697,Arkansas
-2.79,1505,California
-2.66,1721,Colorado
-3.31,1532,Connecticut
-3.83,1400,Washington DC
-3.78,1400,Delaware
-2.08,1457,Florida
-2.57,1452,Georgia
-2.64,1453,Hawaii
-2.06,1763,Idaho
-2.88,1807,Illinois
-2.73,1470,Indiana
-3.23,1763,Iowa
-3.14,1752,Kansas
-2.66,1741,Kentucky
-2.74,1655,Louisiana
-2.23,1553,Maine
-3.32,1483,Maryland
-2.94,1380,Massachusetts
-3.47,1782,Michigan
-2.91,1780,Minnesota
-2.53,1673,Mississippi
-2.53,1773,Missouri
-2.7,1595,Montana
-3.16,1734,Nebraska
-2.04,1454,Nevada
-3.08,1567,New Hampshire
-3.88,1521,New Jersey
-3.29,1626,New Mexico
-3.72,1463,New York
-2.88,1479,North Carolina
-3.43,1799,North Dakota
-2.79,1635,Ohio
-2.51,1689,Oklahoma
-2.82,1539,Oregon
-2.87,1480,Pennsylvania
-2.91,1468,Rhode Island
-2.23,1436,South Carolina
-2.63,1760,South Dakota
-2.15,1709,Tennessee
-3.27,1437,Texas
-2.93,1684,Utah
-4,1540,Vermont
-2.82,1528,Virginia
-2.8,1537,Washington
-3.05,1513,West Virginia
-3.3,1771,Wisconsin
-4.33,1727,Wyoming
+id,totalScore,spentPerStudent
+Alabama,1608,2.73
+Alaska,1495,5.29
+Arizona,1551,2.15
+Arkansas,1697,3
+California,1505,2.79
+Colorado,1721,2.66
+Connecticut,1532,3.31
+Washington DC,1400,3.83
+Delaware,1400,3.78
+Florida,1457,2.08
+Georgia,1452,2.57
+Hawaii,1453,2.64
+Idaho,1763,2.06
+Illinois,1807,2.88
+Indiana,1470,2.73
+Iowa,1763,3.23
+Kansas,1752,3.14
+Kentucky,1741,2.66
+Louisiana,1655,2.74
+Maine,1553,2.23
+Maryland,1483,3.32
+Massachusetts,1380,2.94
+Michigan,1782,3.47
+Minnesota,1780,2.91
+Mississippi,1673,2.53
+Missouri,1773,2.53
+Montana,1595,2.7
+Nebraska,1734,3.16
+Nevada,1454,2.04
+New Hampshire,1567,3.08
+New Jersey,1521,3.88
+New Mexico,1626,3.29
+New York,1463,3.72
+North Carolina,1479,2.88
+North Dakota,1799,3.43
+Ohio,1635,2.79
+Oklahoma,1689,2.51
+Oregon,1539,2.82
+Pennsylvania,1480,2.87
+Rhode Island,1468,2.91
+South Carolina,1436,2.23
+South Dakota,1760,2.63
+Tennessee,1709,2.15
+Texas,1437,3.27
+Utah,1684,2.93
+Vermont,1540,4
+Virginia,1528,2.82
+Washington,1537,2.8
+West Virginia,1513,3.05
+Wisconsin,1771,3.3
+Wyoming,1727,4.33

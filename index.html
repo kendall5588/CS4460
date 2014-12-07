@@ -77,7 +77,6 @@
 </head>
 
 <body>
-
 	<div id = "totalScreen">
 		<div id = "mainScreen">
 			<div class = "ui-block-a" id = "leftMainScreen">
@@ -98,10 +97,11 @@
 						Update
 					</button>
 				</p>
-				
+
 				<p style = "margin: 0 auto; width: 300px;" align="center" >
 					<a href="#graphPanel"  onclick = "addPic()">Click me</a>
 				</p>
+
 				
 				<div data-role="panel" data-position="right" data-display = "reveal" id="graphPanel">
 					<p>
@@ -116,9 +116,7 @@
 				<script src="js/map.js"></script>
 
 				<script>
-					var width = 35, barHeight = 35;
-					scores = {};
-					scale = [];
+					width = 35, barHeight = 35; scores = {}; scale = [];
 					states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
 					//default data reading
@@ -126,48 +124,38 @@
 
 					//functions
 					function updateClicked() {
+						clearBox("statesvg");
 						var e = document.getElementById("xdropdown");
-						selection = e.options[e.selectedIndex].value;
+							column = e.options[e.selectedIndex].value;
 						d3.csv("res/default.csv", function(error, data) {
-							var min = parseInt(d3.min(data, function(d) {
-								return d.totalScore;
-							}));
-							max = parseInt(d3.max(data, function(d) {
-								return d.totalScore;
-							}));
+							min = parseInt(d3.min(data, function(d) {return d[column];}));
+							max = parseInt(d3.max(data, function(d) {return d[column];}));
 							dif = max - min;
-							scale = [max.toFixed(2), Math.round((min + dif * .75) * 100) / 100, (Math.round((min + dif * .5) * 100) / 100).toFixed(2), Math.round((min + dif * .25) * 100) / 100, min.toFixed(2)]
-
+							scale = [max.toFixed(2), Math.round((min + dif * .75) * 100) / 100, (Math.round((min + dif * .5) * 100) / 100).toFixed(2), Math.round((min + dif * .25) * 100) / 100, min.toFixed(2)];
 							for (var index = 0; index < data.length; ++index) {
-								data[index].selection = +data[index].totalScore;
-								var temp = 255 * (data[index].selection - min) / (max - min);
-								scores[states[index]] = {
-									score : data[index].selection,
-									color : d3.rgb(0, 0, temp)
-								};
+								console.log(data[index][column]);
+								data[index][column] = +data[index][column];
+								var temp = 255 * (data[index][column] - min) / (max - min);
+								scores[states[index]] = {score : data[index][column], color : d3.rgb(0, 0, temp)};
 							}
-
+							
 							//draw map
 							map.draw("#statesvg", scores, tooltip);
 
 							//draw legend
-							var color = d3.scale.ordinal().range(getColor(scale, min, max));
-
-							var svg = d3.select("#statesvg").append("svg").append("g").attr("transform", "translate(850,400)");
-
+							color = d3.scale.ordinal().range(getColor(scale, min, max));
+							svg = d3.select("#statesvg").append("svg").append("g").attr("transform", "translate(850,400)");
 							color.domain(scale);
-							var legend = svg.selectAll(".legend").data(color.domain().slice()).enter().append("g").attr("class", "legend").attr("transform", function(d, i) {
-								return "translate(0," + i * 20 + ")";
-							});
-
+							legend = svg.selectAll(".legend").data(color.domain().slice()).enter().append("g").attr("class", "legend").attr("transform", function(d, i) {return "translate(0," + i * 20 + ")";});
 							legend.append("rect").attr("x", width - 18).attr("width", 18).attr("height", 18).style("fill", color);
-
-							legend.append("text").attr("x", width - 24).attr("y", 9).attr("dy", ".35em").style("text-anchor", "end").text(function(d) {
-								return d;
-							});
+							legend.append("text").attr("x", width - 24).attr("y", 9).attr("dy", ".35em").style("text-anchor", "end").text(function(d) {return d;});
 						});
 					}
 
+					function clearBox(elementID){
+					    document.getElementById(elementID).innerHTML = "";
+					}
+					
 					function getColor(a, min, max) {
 						var ret = [];
 						for (var i = 0; i < a.length; i++) {
@@ -187,7 +175,6 @@
 					}
 				</script>
 			</div>
-			
 			<div id = "rightMainScreen" style="height:600px" class="ui-block-b">
 				<h2 style = "text-indent: 8em" >STATE NAME HERE:</h2>
 				<p>
@@ -197,8 +184,8 @@
 				<div id = "stateDonutSchoolMainScreen"></div>
 				<!-- <img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'> -->
 			</div>
-			
 		</div>
+		
 		<script>
 			var mainScreen = document.getElementById("mainScreen");
 			var compScreen = document.getElementByID("compScreen");
@@ -220,7 +207,6 @@
 		</script>
 		<div id = "compScreen" class="ui-grid-a">
 			<h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
-
 			<p style = "text-indent: 22em">
 				<button id = "mainButton" onclick = "showMain()" data-inline = "true">
 					Overview
@@ -229,17 +215,17 @@
 					Compare
 				</button>
 			</p>
-			</div>
+		</div>
 			<div class="ui-block-a">
 				<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
 			</div>
 			<div class="ui-block-b">
 				<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
 			</div>
-		</div>
-		<script>
-			var compScreen = document.getElementById("compScreen");
-			compScreen.style.display = 'none';
-		</script>
 	</div>
+	<script>
+		var compScreen = document.getElementById("compScreen");
+		compScreen.style.display = 'none';
+	</script>
+	
 </body>
