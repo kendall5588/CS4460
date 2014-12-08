@@ -144,7 +144,7 @@
 
 							//draw legend
 							color = d3.scale.ordinal().range(getColor(scale, min, max));
-							svg = d3.select("#statesvg").append("svg").append("g").attr("transform", "translate(0,400)");
+							svg = d3.select("#statesvg").append("svg").append("g").attr("transform", "translate(850,400)");
 							color.domain(scale);
 							legend = svg.selectAll(".legend").data(color.domain().slice()).enter().append("g").attr("class", "legend").attr("transform", function(d, i) {return "translate(0," + i * 20 + ")";});
 							legend.append("rect").attr("x", width - 18).attr("width", 18).attr("height", 18).style("fill", color);
