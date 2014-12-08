@@ -89,6 +89,7 @@ function drawScatterplot() {
 	// setup fill color. We can modify this to have color represent a variable
 	var cValue = function(d) { return d.score;},
 		color = d3.scale.category10();
+		id = function(d) { return d.id;};
 
 	// add the graph canvas to the body of the webpage
 	var svg = d3.select("#rightMainScreen").append("svg")
@@ -106,7 +107,7 @@ function drawScatterplot() {
 	
 	e = document.getElementById("xdropdown");
 	xHeader = e.options[e.selectedIndex].value;
-	var e = document.getElementById("ydropdown");
+	e = document.getElementById("ydropdown");
 	yHeader = e.options[e.selectedIndex].value;
 	
 	// load data
@@ -147,11 +148,13 @@ function drawScatterplot() {
 			.data(data)
 			.enter().append("circle")
 				.attr("class", "dot")
-				.attr("r", 3.5)
+				.attr("id", id)
+				.attr("r", 4.5)
 				.attr("cx", xMap)
 				.attr("cy", yMap)
 				//If we want the color of the dots to be relevant, change this	
 				//.style("fill", function(d) { return color(cValue(d));}) 
+				.style("fill", "#00f")
 				.on("mouseover", function(d) {
 					tooltip1.transition()
 						.duration(200)

@@ -1,18 +1,30 @@
 map = {};
-previousState = {id:0, color:0};	
-	
+previousState = {id:0, n:0, color:0};	
+tempState = {id:0, n:0, color:0};
+
 map.draw = function(id, data, tooltip){
 
 	function clicked(d) {
 		if (previousState.id != 0) {
 			d3.select("#"+previousState.id).style("fill", previousState.color);
+			d3.select("#"+previousState.n).style("fill", d3.rgb(0, 0, 255));
 		}
-		previousState.id = d.id;
-		previousState.color = data[d.id].color;
-		d3.select("#"+d.id).style("fill", d3.rgb(255, 0, 0));
+		if (previousState.id == d.id) {
+			d3.select("#"+previousState.id).style("fill", previousState.color);
+			d3.select("#"+previousState.n).style("fill", d3.rgb(0, 0, 255));
+			previousState = {id:0, n:0, color:0};
+		} else {
+			previousState.id = d.id;
+			previousState.n = d.n;
+			previousState.color = data[d.id].color;
+			d3.select("#"+d.id).style("fill", d3.rgb(255, 0, 0));
+			d3.select("#"+d.n).style("fill", d3.rgb(255, 0, 0));
+			mouseOver(d);
+		}
 	}
 		
 	function mouseOver(d){
+			
 		d3.select("#tooltip")
 			.transition()
 			.duration(200)
@@ -28,7 +40,7 @@ map.draw = function(id, data, tooltip){
 		d3.select("#tooltip")
 			.transition()
 			.duration(200)
-			.style("opacity", 0);      
+			.style("opacity", 0);
 	}
 	
 	d3.select(id).selectAll(".state")
