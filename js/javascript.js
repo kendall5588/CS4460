@@ -105,10 +105,10 @@ function drawScatterplot() {
 		.attr("class", "tooltip")
 		.style("opacity", 0);
 	
-	e = document.getElementById("xdropdown");
-	xHeader = e.options[e.selectedIndex].value;
-	e = document.getElementById("ydropdown");
-	yHeader = e.options[e.selectedIndex].value;
+	a = document.getElementById("xdropdown");
+	xHeader = a.options[a.selectedIndex].value;
+	b = document.getElementById("ydropdown");
+	yHeader = b.options[a.selectedIndex].value;
 	
 	// load data
 	//d3.csv("res/scatterplotData.csv", function(error, data) {
@@ -130,7 +130,7 @@ function drawScatterplot() {
 			  .attr("x", width)
 			  .attr("y", -6)
 			  .style("text-anchor", "end")
-			  .text(xHeader);
+			  .text(a.options[a.selectedIndex].text);
 		// y-axis
 		d3.select("#scatterPlotg").append("g")
 			  .attr("class", "y axis")
@@ -141,7 +141,7 @@ function drawScatterplot() {
 			  .attr("y", 6)
 			  .attr("dy", ".71em")
 			  .style("text-anchor", "end")
-			  .text(yHeader);
+			  .text(b.options[b.selectedIndex].text);
 		
 		// draw dots
 		d3.select("#scatterPlotg").selectAll(".dot")
