@@ -3,6 +3,7 @@ var map = {};
 map.draw = function(id, data, tooltip){
 
 	function clicked(d) {
+	
 	}
 		
 	function mouseOver(d){
