@@ -83,7 +83,7 @@
 		<div id = "mainScreen">
 			<!-- START: LEFT COLUMN OF OVERVIEW SCREEN -->
 			<div id = "leftMainScreen" class = "ui-block-a">
-				<h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
+				<h1 style = "margin: 0 auto" align="center">SAT/State Education Visualization</h1>
 
 				<!-- top menu with buttons for the comparison screen and various dropdowns -->
 				<p style = "margin: 0 auto" align="center">
@@ -93,7 +93,7 @@
 					<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">
 						Compare
 					</button>
-					<select id="xdropdown" data-inline = "true">
+					<select id="maindropdown" data-inline = "true">
 						<option val=totalScore>totalScore</option>
 						<option val=spentPerStudent>spentPerStudent</option>
 					</select>
@@ -126,8 +126,8 @@
 					
 					function updateClicked() {
 						clearBox("statesvg");
-						var e = document.getElementById("xdropdown");
-							column = e.options[e.selectedIndex].value;
+						e = document.getElementById("maindropdown");
+						column = e.options[e.selectedIndex].value;
 						d3.csv("res/default.csv", function(error, data) {
 							min = parseFloat(d3.min(data, function(d) {return d[column];}));
 							max = parseFloat(d3.max(data, function(d) {return d[column];}));
@@ -181,10 +181,24 @@
 
 			<!-- START: RIGHT COLUMN OF OVERVIEW SCREEN -->
 			<div id = "rightMainScreen"  class="ui-block-b">
-				<h2 style = "text-indent: 8em">STATE NAME HERE:</h2>
-				<h4 style = "text-indent: 15em">insert stuff here</h4>
-				<div id = "stateNameMainScreen"></div>
-				<div id = "stateDonutSchoolMainScreen"></div>
+				<h2 style = "margin: 0 auto" align="center"">Scatter Plot</h2>
+				<p style = "margin: 0 auto" align="center">
+					<font size="4">X:</font>
+					<select id="xdropdown" data-inline = "true">
+						<option val=spentPerStudent>spentPerStudent</option>
+						<option val=totalScore>totalScore</option>
+						<option val=CR_m>CR_m</option>
+					</select>
+					<font size="4">Y:</font>
+					<select id="ydropdown" data-inline = "true">
+						<option val=totalScore>totalScore</option>
+						<option val=spentPerStudent>spentPerStudent</option>
+						<option val=CR_m>CR_m</option>
+					</select>
+					<button id="update" onclick="updateScatterplot()" data-inline = "true">
+						Update
+					</button>
+				</p>
 				
 				<style>
 					body {
@@ -215,104 +229,116 @@
 				</style>
 					
 				<script>
-					var margin = {top: 20, right: 40, bottom: 30, left: 60},
-						width = 960 - margin.left - margin.right,
-						height = 500 - margin.top - margin.bottom;
+					drawScatterplot()
+					
+					function updateScatterplot() {
+						d = document.getElementById('rightMainScreen');
+						old = document.getElementById('scatterPlotsvg');
+						d.removeChild(old);
+						drawScatterplot();
+					}
+					
+					function drawScatterplot() {
+						var margin = {top: 20, right: 40, bottom: 30, left: 60},
+							width = 960 - margin.left - margin.right,
+							height = 500 - margin.top - margin.bottom;
 
-					// setup x 
-					var xValue = function(d) { return d.cost;}, // data -> value
-						xScale = d3.scale.linear().range([0, width]), // value -> display
-						xMap = function(d) { return xScale(xValue(d));}, // data -> display
-						xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+						// setup x 
+						var xValue = function(d) { return d[xHeader];}, // data -> value
+							xScale = d3.scale.linear().range([0, width]), // value -> display
+							xMap = function(d) { return xScale(xValue(d));}, // data -> display
+							xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
-					// setup y
-					var yValue = function(d) { return d.score;}, // data -> value
-						yScale = d3.scale.linear().range([height, 0]), // value -> display
-						yMap = function(d) { return yScale(yValue(d));}, // data -> display
-						yAxis = d3.svg.axis().scale(yScale).orient("left");
+						// setup y
+						var yValue = function(d) { return d[yHeader];}, // data -> value
+							yScale = d3.scale.linear().range([height, 0]), // value -> display
+							yMap = function(d) { return yScale(yValue(d));}, // data -> display
+							yAxis = d3.svg.axis().scale(yScale).orient("left");
 
-					// setup fill color. We can modify this to have color represent a variable
-					var cValue = function(d) { return d.score;},
-						color = d3.scale.category10();
+						// setup fill color. We can modify this to have color represent a variable
+						var cValue = function(d) { return d.score;},
+							color = d3.scale.category10();
 
-					// add the graph canvas to the body of the webpage
-					var svg = d3.select("#rightMainScreen").append("svg")
-						.attr("id", "scatterPlotsvg")
-						.attr("width", width + margin.left + margin.right)
-						.attr("height", height + margin.top + margin.bottom)
-					  .append("g")
-						.attr("id", "scatterPlotg")
-						.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+						// add the graph canvas to the body of the webpage
+						var svg = d3.select("#rightMainScreen").append("svg")
+							.attr("id", "scatterPlotsvg")
+							.attr("width", width + margin.left + margin.right)
+							.attr("height", height + margin.top + margin.bottom)
+						  .append("g")
+							.attr("id", "scatterPlotg")
+							.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-					// add the tooltip area to the webpage
-					var tooltip1 = d3.select("#rightMainScreen").append("div")
-						.attr("class", "tooltip")
-						.style("opacity", 0);
-
-					// load data
-					d3.csv("res/scatterplotData.csv", function(error, data) {
+						// add the tooltip area to the webpage
+						var tooltip1 = d3.select("#rightMainScreen").append("div")
+							.attr("class", "tooltip")
+							.style("opacity", 0);
 						
-					  // change string (from CSV) into number format
-					  data.forEach(function(d) {
-						d.cost = +d.cost;
-						d.score= +d.score;
-					  });
-
-					  // don't want dots overlapping axis, so add in buffer to data domain
-					  xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
-					  yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
-
-					  // x-axis
-						d3.select("#scatterPlotg").append("g")
-						  .attr("class", "x axis")
-						  .attr("transform", "translate(0," + height + ")")
-						  .call(xAxis)
-						.append("text")
-						  .attr("class", "label")
-						  .attr("x", width)
-						  .attr("y", -6)
-						  .style("text-anchor", "end")
-						  .text("Educational Cost per Student ($)");
-					  // y-axis
-						d3.select("#scatterPlotg").append("g")
-						  .attr("class", "y axis")
-						  .call(yAxis)
-						.append("text")
-						  .attr("class", "label")
-						  .attr("transform", "rotate(-90)")
-						  .attr("y", 6)
-						  .attr("dy", ".71em")
-						  .style("text-anchor", "end")
-						  .text("Average State SAT Score");
-
-					  // draw dots
-					  d3.select("#scatterPlotg").selectAll(".dot")
-						  .data(data)
-						.enter().append("circle")
-						  .attr("class", "dot")
-						  .attr("r", 3.5)
-						  .attr("cx", xMap)
-						  .attr("cy", yMap)
-						  //If we want the color of the dots to be relevant, change this	
-						  //.style("fill", function(d) { return color(cValue(d));}) 
-						  .on("mouseover", function(d) {
-							  tooltip1.transition()
-								   .duration(200)
-								   .style("opacity", .9);
-							  tooltip1.html(d.id + "<br/> (" + xValue(d) 
-								+ ", " + yValue(d) + ")")
-								   .style("left", (d3.event.pageX + 5) + "px")
-								   .style("top", (d3.event.pageY - 28) + "px");
-						  })
-						  .on("mouseout", function(d) {
-							  tooltip1.transition()
-								   .duration(500)
-								   .style("opacity", 0);
-						  });
-					});
+						e = document.getElementById("xdropdown");
+						xHeader = e.options[e.selectedIndex].value;
+						var e = document.getElementById("ydropdown");
+						yHeader = e.options[e.selectedIndex].value;
+						
+						// load data
+						//d3.csv("res/scatterplotData.csv", function(error, data) {
+						d3.csv("res/default.csv", function(error, data) {
+							data.forEach(function(d) {
+								d[xHeader] = +d[xHeader];
+								d[yHeader] = +d[yHeader];
+							});
+							// don't want dots overlapping axis, so add in buffer to data domain
+							xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
+							yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
+							// x-axis
+							d3.select("#scatterPlotg").append("g")
+								  .attr("class", "x axis")
+								  .attr("transform", "translate(0," + height + ")")
+								  .call(xAxis)
+								.append("text")
+								  .attr("class", "label")
+								  .attr("x", width)
+								  .attr("y", -6)
+								  .style("text-anchor", "end")
+								  .text(xHeader);
+							// y-axis
+							d3.select("#scatterPlotg").append("g")
+								  .attr("class", "y axis")
+								  .call(yAxis)
+								.append("text")
+								  .attr("class", "label")
+								  .attr("transform", "rotate(-90)")
+								  .attr("y", 6)
+								  .attr("dy", ".71em")
+								  .style("text-anchor", "end")
+								  .text(yHeader);
+							
+							// draw dots
+							d3.select("#scatterPlotg").selectAll(".dot")
+								.data(data)
+								.enter().append("circle")
+									.attr("class", "dot")
+									.attr("r", 3.5)
+									.attr("cx", xMap)
+									.attr("cy", yMap)
+									//If we want the color of the dots to be relevant, change this	
+									//.style("fill", function(d) { return color(cValue(d));}) 
+									.on("mouseover", function(d) {
+										tooltip1.transition()
+											.duration(200)
+											.style("opacity", .9);
+										tooltip1.html(d.id + "<br/> (" + xValue(d) 
+											+ ", " + yValue(d) + ")")
+											.style("left", (d3.event.pageX + 5) + "px")
+											.style("top", (d3.event.pageY - 28) + "px");
+									})
+									.on("mouseout", function(d) {
+										tooltip1.transition()
+											.duration(500)
+											.style("opacity", 0);
+									});
+						});
+					}
 				</script>
-				
-				<!-- <img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'> -->
+			
 			</div>
 			<!-- END: OVERVIEW SCREEN -->
 		</div>
