@@ -1,13 +1,18 @@
-var map = {};
+map = {};
+previousState = {id:0, color:0};	
 	
 map.draw = function(id, data, tooltip){
 
 	function clicked(d) {
-	
+		if (previousState.id != 0) {
+			d3.select("#"+previousState.id).style("fill", previousState.color);
+		}
+		previousState.id = d.id;
+		previousState.color = data[d.id].color;
+		d3.select("#"+d.id).style("fill", d3.rgb(255, 0, 0));
 	}
 		
 	function mouseOver(d){
-	
 		d3.select("#tooltip")
 			.transition()
 			.duration(200)
@@ -20,7 +25,6 @@ map.draw = function(id, data, tooltip){
 	}
 	
 	function mouseOut(d){
-	
 		d3.select("#tooltip")
 			.transition()
 			.duration(200)
@@ -31,6 +35,7 @@ map.draw = function(id, data, tooltip){
 	 	.data(stateBorders)
 	 	.enter()
 	 	.append("path")
+		.attr("id", function(d){ return d.id;})
 	 	.attr("class", "state")
 	 	.attr("d", function(d){ return d.d;})
   	    .style("fill", function(d){ return data[d.id].color; })
