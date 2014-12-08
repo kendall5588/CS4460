@@ -144,7 +144,7 @@
 
 							//draw legend
 							color = d3.scale.ordinal().range(getColor(scale, min, max));
-							svg = d3.select("#statesvg").append("svg").append("g").attr("transform", "translate(850,400)");
+							svg = d3.select("#statesvg").append("svg").append("g").attr("transform", "translate(0,400)");
 							color.domain(scale);
 							legend = svg.selectAll(".legend").data(color.domain().slice()).enter().append("g").attr("class", "legend").attr("transform", function(d, i) {return "translate(0," + i * 20 + ")";});
 							legend.append("rect").attr("x", width - 18).attr("width", 18).attr("height", 18).style("fill", color);
@@ -245,7 +245,7 @@
 						.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 					// add the tooltip area to the webpage
-					var tooltip = d3.select("#rightMainScreen").append("div")
+					var tooltip1 = d3.select("#rightMainScreen").append("div")
 						.attr("class", "tooltip")
 						.style("opacity", 0);
 
@@ -296,16 +296,16 @@
 						  //If we want the color of the dots to be relevant, change this	
 						  //.style("fill", function(d) { return color(cValue(d));}) 
 						  .on("mouseover", function(d) {
-							  tooltip.transition()
+							  tooltip1.transition()
 								   .duration(200)
 								   .style("opacity", .9);
-							  tooltip.html(d.id + "<br/> (" + xValue(d) 
+							  tooltip1.html(d.id + "<br/> (" + xValue(d) 
 								+ ", " + yValue(d) + ")")
 								   .style("left", (d3.event.pageX + 5) + "px")
 								   .style("top", (d3.event.pageY - 28) + "px");
 						  })
 						  .on("mouseout", function(d) {
-							  tooltip.transition()
+							  tooltip1.transition()
 								   .duration(500)
 								   .style("opacity", 0);
 						  });
