@@ -3,7 +3,6 @@
 <head>
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
 	<script src="lib/d3.js"></script>
 	<script src="js/stateBorders.js"></script>
 	<script src="js/map.js"></script>
@@ -87,18 +86,12 @@
 		<div id = "mainScreen">
 			<!-- START: LEFT COLUMN OF OVERVIEW SCREEN -->
 			<div id = "leftMainScreen" class = "ui-block-a">
-				<h1 style = "margin: 0 auto" align="center">SAT Scores</h1>
+				<h1 style = "margin: 50px" align="center">SAT Scores</h1>
 				<!-- top menu with buttons for the comparison screen and various dropdowns -->
 				<p id = "coroplethButtons" style = "margin: 0 auto" align="center">
-					<button id = "mainButton" onclick = "showMain()" data-inline = "true">
-						Overview
-					</button>
-					<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">
-						Compare
-					</button>
 					<select id="maindropdown" data-inline = "true">
 						<option value=totalScore>Total Score</option>
-						<option value=spentPerStudent>$ spent per Student</option>
+						<option value=spentPerStudent>$/year/Student</option>
 						<option value=CR_m>Critical Reading Mean Score</option>
 						<option value=M_m>Math Mean Score</option>
 						<option value=W_m>Writing Mean Score</option>
@@ -116,11 +109,11 @@
 
 			<!-- START: RIGHT COLUMN OF OVERVIEW SCREEN -->
 			<div id = "rightMainScreen"  class="ui-block-b">
-				<h2 style = "margin: 0 auto" align="center"">Scatter Plot</h2>
+				<h2 style = "margin: 50px" align="center"">Scatter Plot</h2>
 				<p style = "margin: 0 auto" align="center">
-					<font size="4">X:</font>
+					<font size="3">X:</font>
 					<select id="xdropdown" data-inline = "true">
-						<option value=spentPerStudent>$ spent per Student</option>
+						<option value=spentPerStudent>$/year/Student</option>
 						<option value=totalScore>Total Score</option>
 						<option value=CR_m>Critical Reading Mean Score</option>
 						<option value=M_m>Math Mean Score</option>
@@ -128,10 +121,10 @@
 						<option value=MC_m>Writing Mutiple Choice Mean Score</option>
 						<option value=E_m>Essay Mean Score</option>
 					</select>
-					<font size="4">Y:</font>
+					<font size="3">Y:</font>
 					<select id="ydropdown" data-inline = "true">
 						<option value=totalScore>Total Score</option>
-						<option value=spentPerStudent>$ spent per Student</option>
+						<option value=spentPerStudent>$/year/Student</option>
 						<option value=CR_m>Critical Reading Mean Score</option>
 						<option value=M_m>Math Mean Score</option>
 						<option value=W_m>Writing Mean Score</option>
@@ -174,40 +167,5 @@
 			</div>
 			<!-- END: OVERVIEW SCREEN -->
 		</div>
-		
-		<script>
-			//just setting it up so that the main screen (overview screen) is what shows up when page opened
-			// but if compare button is clicked, the overview screen is replaced with the comparison screen
-			var mainScreen = document.getElementById("mainScreen");
-			var compScreen = document.getElementByID("compScreen");
-		</script>
-
-		<!-- START: COMPARISON SCREEN -->		
-		<div id = "compScreen" class="ui-grid-a">
-			<h1 style = "text-indent: 7em">SAT/State Education Visualization</h1>
-			<p style = "text-indent: 22em">
-				<button id = "mainButton" onclick = "showMain()" data-inline = "true">
-					Overview
-				</button>
-				<button id = "comparisonButton" onclick = "showComp()" data-inline = "true">
-					Compare
-				</button>
-			</p>
-			<div class="ui-block-a">
-				<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
-			</div>
-			<div class="ui-block-b">
-				<img src = 'http://static.tumblr.com/2zujawz/qpVng2o4h/mockup-georgia.jpg'>
-			</div>
-		</div>
-		<!-- END: COMPARISON SCREEN -->
-	</div>
-	<!-- END: ALL DIVS -->
-
-	<script>
-		//set compScreen's default to be invisible
-		var compScreen = document.getElementById("compScreen");
-		compScreen.style.display = 'none';
-	</script>
 	
 </body>

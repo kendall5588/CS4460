@@ -7,18 +7,18 @@ map.draw = function(id, data, tooltip){
 	function clicked(d) {
 		if (previousState.id != 0) {
 			d3.select("#"+previousState.id).style("fill", previousState.color);
-			d3.select("#"+previousState.n).style("fill", d3.rgb(0, 0, 255));
+			d3.select("#"+previousState.id+"1").style("fill", d3.rgb(0, 0, 255));
 		}
 		if (previousState.id == d.id) {
 			d3.select("#"+previousState.id).style("fill", previousState.color);
-			d3.select("#"+previousState.n).style("fill", d3.rgb(0, 0, 255));
+			d3.select("#"+previousState.id+"1").style("fill", d3.rgb(0, 0, 255));
 			previousState = {id:0, n:0, color:0};
 		} else {
 			previousState.id = d.id;
 			previousState.n = d.n;
 			previousState.color = data[d.id].color;
 			d3.select("#"+d.id).style("fill", d3.rgb(255, 0, 0));
-			d3.select("#"+d.n).style("fill", d3.rgb(255, 0, 0));
+			d3.select("#"+d.id+"1").style("fill", d3.rgb(255, 0, 0));
 		}
 	}
 		
@@ -28,7 +28,7 @@ map.draw = function(id, data, tooltip){
 		tempState.color = data[d.id].color;
 		if (tempState.id != previousState.id) {
 			d3.select("#"+d.id).style("fill", d3.rgb(0, 255, 0));
-			d3.select("#"+d.n).style("fill", d3.rgb(0, 255, 0));
+			d3.select("#"+d.id+"1").style("fill", d3.rgb(0, 255, 0));
 		}
 		
 		d3.select("#tooltip")
@@ -45,7 +45,7 @@ map.draw = function(id, data, tooltip){
 	function mouseOut(d){
 		if (tempState.id != previousState.id) {
 			d3.select("#"+d.id).style("fill", tempState.color);
-			d3.select("#"+d.n).style("fill", d3.rgb(0, 0, 255));
+			d3.select("#"+d.id+"1").style("fill", d3.rgb(0, 0, 255));
 		}
 		d3.select("#tooltip")
 			.transition()

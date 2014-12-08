@@ -1,5 +1,5 @@
-
 //coropleth functions start
+
 function coropleth() {
 	width = 35, barHeight = 35; scores = {}; scale = [];
 	states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
@@ -61,7 +61,8 @@ function tooltip(n, d) {
 	return "<h4>" + n + "</h4><table><tr><td>Score</td><td>" + (d.score) + "</td></tr></table>";
 }
 
-//coropleth functions end - scatterplot functions start
+//coropleth functions end - scatterplot functions 
+
 function updateScatterplot() {
 	d = document.getElementById('rightMainScreen');
 	old = document.getElementById('scatterPlotsvg');
@@ -71,7 +72,7 @@ function updateScatterplot() {
 
 function drawScatterplot() {
 	var margin = {top: 20, right: 40, bottom: 30, left: 60},
-		width = 960 - margin.left - margin.right,
+		width = 900 - margin.left - margin.right,
 		height = 500 - margin.top - margin.bottom;
 
 	// setup x 
@@ -121,6 +122,7 @@ function drawScatterplot() {
 		xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
 		yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
 		// x-axis
+		console.log(data);
 		d3.select("#scatterPlotg").append("g")
 			  .attr("class", "x axis")
 			  .attr("transform", "translate(0," + height + ")")
@@ -148,8 +150,8 @@ function drawScatterplot() {
 			.data(data)
 			.enter().append("circle")
 				.attr("class", "dot")
-				.attr("id", id)
-				.attr("r", 4.5)
+				.attr("id", function(d) {return d.id + "1";})
+				.attr("r", 4)
 				.attr("cx", xMap)
 				.attr("cy", yMap)
 				//If we want the color of the dots to be relevant, change this	
@@ -172,16 +174,4 @@ function drawScatterplot() {
 	});
 }
 
-//scatterplot functions end - main/comp screen functions start
-
-function showMain() {
-	compScreen.style.display = 'none';
-	mainScreen.style.display = 'block';
-}
-
-function showComp() {
-	mainScreen.style.display = 'none';
-	compScreen.style.display = 'block';
-}
-
-
+//scatterplot functions end
